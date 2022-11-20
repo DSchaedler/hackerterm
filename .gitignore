@@ -25,3 +25,6 @@ mygame/sprites/isometric/
 mygame/sprites/misc/
 mygame/sprites/square/
 mygame/sprites/tile/
+exceptions/
+console_history.txt
+logs/
