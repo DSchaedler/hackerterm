@@ -9,7 +9,8 @@ BROKEN_KEYS = [
 	:end, 
 	:home,
 	:pageup,
-	:pagedown
+	:pagedown,
+	:enter
 	]
 KEY_MAP = {
 	exclamation_point: "!", 
@@ -41,14 +42,18 @@ def tick args
 	
 	prompt
 	
+	console_log
+	
 	housekeeping
 
 end
 
 def startup
 	$log_lines = []
+	$log_lines << "System Ready."
   $previous_commands = []
   $letter_size = $gtk.calcstringbox 'W'
+	$tick_started = true
 end
 
 def places
@@ -96,6 +101,10 @@ def prompt
 	elsif !BROKEN_KEYS.include? key_zero
 		current_prompt += key_zero.to_s
 		$prompt_position += key_zero.to_s.length
+	elsif key_zero == :enter
+		$log_lines << current_prompt.sub("-> ", "")
+		current_prompt = '-> '
+		$prompt_position = 0
 	end
 	
 	$prev_key = key_zero
@@ -109,4 +118,16 @@ def prompt
 		r: 255, g: 255, b: 255, a: 255,
 		primitive_marker: :label
 		}
+end
+
+def console_log
+	output_lines = []
+	$log_lines.each_with_index { |line, index|
+		output_lines[index] = {x: STD_BUFFER, y: 720 - (index * $letter_size.y + STD_BUFFER) - STD_BUFFER, 
+			text: line, 
+			r: 255, g: 255, b: 255, a: 255,
+			primitive_marker: :label
+			}
+		}
+	$gtk.args.outputs.primitives << output_lines
 end
