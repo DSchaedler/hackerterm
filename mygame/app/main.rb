@@ -74,7 +74,7 @@ def prompt
 			current_prompt = current_prompt[0...-1]
 			$prompt_position -= 1
 		 end
-	elsif $gtk.args.inputs.keyboard.key_held.backspace && ($gtk.args.state.tick_count % 5) == 0
+	elsif $gtk.args.inputs.keyboard.key_held.backspace && ($gtk.args.state.tick_count % 5) == 0 && key_zero != :backspace
 		 if $prompt_position > 0
 			current_prompt = current_prompt[0...-1]
 			$prompt_position -= 1
